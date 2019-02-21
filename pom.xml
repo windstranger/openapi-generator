@@ -1214,13 +1214,13 @@
                 <module>samples/server/petstore/java-msf4j</module>
             </modules>
         </profile>
-        <!-- misc test in CircleCI -->
+        <!-- php tests in Appveyor -->
         <profile>
-            <id>samples.circleci.misc</id>
+            <id>samples.appveyor</id>
             <activation>
                 <property>
                     <name>env</name>
-                    <value>samples.circleci.misc</value>
+                    <value>samples.appveyor</value>
                 </property>
             </activation>
             <modules>
