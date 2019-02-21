@@ -1025,13 +1025,12 @@
                 <!--<module>samples/client/petstore/dart2/petstore</module>-->
                 <module>samples/client/petstore/haskell-http-client</module>
                 <module>samples/client/petstore/elm-0.18</module>
-                <module>samples/client/petstore/groovy</module>
                 <module>samples/client/petstore/rust</module>
                 <module>samples/client/petstore/rust-reqwest</module>
                 <!--<module>samples/client/petstore/perl</module>-->
-                <module>samples/client/petstore/php/OpenAPIClient-php</module>
+                <!--<module>samples/client/petstore/php/OpenAPIClient-php</module>
                 <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
-                <module>samples/server/petstore/php-slim</module>
+                <module>samples/server/petstore/php-slim</module>-->
                 <module>samples/client/petstore/javascript</module>
                 <module>samples/client/petstore/javascript-es6</module>
                 <module>samples/openapi3/client/petstore/javascript-es6</module>
@@ -1081,6 +1080,7 @@
                 <module>samples/client/petstore/scala-akka</module>
                 <module>samples/client/petstore/scala-httpclient</module>
                 <module>samples/client/petstore/scalaz</module>
+                <module>samples/client/petstore/groovy</module>
                 <module>samples/client/petstore/clojure</module>
                 <module>samples/client/petstore/java/feign</module>
                 <module>samples/client/petstore/java/feign10x</module>
@@ -1212,6 +1212,22 @@
                 <module>samples/server/petstore/jaxrs-cxf-cdi</module>
                 <module>samples/server/petstore/jaxrs-cxf-non-spring-app</module>
                 <module>samples/server/petstore/java-msf4j</module>
+            </modules>
+        </profile>
+        <!-- misc test in CircleCI -->
+        <profile>
+            <id>samples.circleci.misc</id>
+            <activation>
+                <property>
+                    <name>env</name>
+                    <value>samples.circleci.misc</value>
+                </property>
+            </activation>
+            <modules>
+                <!-- clients -->
+                <module>samples/client/petstore/php/OpenAPIClient-php</module>
+                <module>samples/openapi3/client/petstore/php/OpenAPIClient-php</module>
+                <module>samples/server/petstore/php-slim</module>
             </modules>
         </profile>
         <!-- test with JDK9 in Shippable CI -->

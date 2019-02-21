@@ -16,6 +16,11 @@ elif [ "$NODE_INDEX" = "2" ]; then
   #export GO_POST_PROCESS_FILE="/usr/local/bin/gofmt -w"
   # not formatting the code as different go versions may format the code a bit different
   ./bin/utils/ensure-up-to-date
+elif [ "$NODE_INDEX" = "3" ]; then
+  echo "Running node $NODE_INDEX to test misc items"
+  phpenv global 7.1
+  php -v
+  mvn --quiet verify -Psamples.circleci.misc
 else
   echo "Running node $NODE_INDEX to test 'samples.circleci.jdk7' defined in pom.xml ..."
   sudo update-java-alternatives -s java-1.7.0-openjdk-amd64
