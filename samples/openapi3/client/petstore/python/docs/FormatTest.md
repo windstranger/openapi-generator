@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **binary** | **file** |  | [optional] 
 **date** | **date** |  | 
 **date_time** | **datetime** |  | [optional] 
-**uuid** | **str** |  | [optional] 
+**uuid** | **str** |  | [optional] [default to '72f98069-206d-4f12-9f12-3d1e525a8e84']
 **password** | **str** |  | 
 **pattern_with_digits** | **str** | A string that is a 10 digit number. Can have leading zeros. | [optional] 
 **pattern_with_digits_and_delimiter** | **str** | A string starting with &#39;image_&#39; (case insensitive) and one to three digits following i.e. Image_01. | [optional] 

@@ -66,7 +66,7 @@ class FormatTest(object):
         'pattern_with_digits_and_delimiter': 'pattern_with_digits_and_delimiter'
     }
 
-    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid=None, password=None, pattern_with_digits=None, pattern_with_digits_and_delimiter=None):  # noqa: E501
+    def __init__(self, integer=None, int32=None, int64=None, number=None, float=None, double=None, string=None, byte=None, binary=None, date=None, date_time=None, uuid='72f98069-206d-4f12-9f12-3d1e525a8e84', password=None, pattern_with_digits=None, pattern_with_digits_and_delimiter=None):  # noqa: E501
         """FormatTest - a model defined in OpenAPI"""  # noqa: E501
 
         self._integer = None

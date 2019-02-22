@@ -658,7 +658,7 @@ public class PythonClientCodegen extends DefaultCodegen implements CodegenConfig
             // include fallback to example, default defined as server only
             // example is not defined as server only
             if (p.getExample() != null) {
-                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getExample()).find())
+                if (Pattern.compile("\r\n|\r|\n").matcher((String) p.getExample().toString()).find())
                     return "'''" + p.getExample() + "'''";
                 else
                     return "'" + p.getExample() + "'";
