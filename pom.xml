@@ -1216,11 +1216,11 @@
         </profile>
         <!-- php tests in Appveyor -->
         <profile>
-            <id>samples.appveyor</id>
+            <id>samples.php</id>
             <activation>
                 <property>
                     <name>env</name>
-                    <value>samples.appveyor</value>
+                    <value>samples.php</value>
                 </property>
             </activation>
             <modules>
