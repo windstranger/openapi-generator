@@ -5,6 +5,8 @@
 
 NODE_INDEX=${CIRCLE_NODE_INDEX:-0}
 
+set -e
+
 if [ "$NODE_INDEX" = "1" ]; then
   echo "Running node $NODE_INDEX to test 'samples.circleci' defined in pom.xml ..."
   #cp CI/pom.xml.circleci pom.xml
