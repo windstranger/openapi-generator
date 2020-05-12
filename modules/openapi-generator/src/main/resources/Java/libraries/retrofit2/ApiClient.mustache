@@ -7,8 +7,10 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+{{#hasOAuthMethods}}
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.AuthenticationRequestBuilder;
 import org.apache.oltu.oauth2.client.request.OAuthClientRequest.TokenRequestBuilder;
+{{/hasOAuthMethods}}
 {{#joda}}
 import org.joda.time.format.DateTimeFormatter;
 {{/joda}}
@@ -26,6 +28,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 import {{invokerPackage}}.auth.HttpBasicAuth;
+import {{invokerPackage}}.auth.HttpBearerAuth;
 import {{invokerPackage}}.auth.ApiKeyAuth;
 {{#hasOAuthMethods}}
 import {{invokerPackage}}.auth.OAuth;
@@ -62,11 +65,13 @@ public class ApiClient {
       {{#hasAuthMethods}}
       Interceptor auth;
       {{#authMethods}}if ("{{name}}".equals(authName)) {
-        {{#isBasic}}
+        {{#isBasic}}{{#isBasicBasic}}
         auth = new HttpBasicAuth();
-        {{/isBasic}}
+        {{/isBasicBasic}}{{^isBasicBasic}}
+        auth = new HttpBearerAuth("{{scheme}}");
+        {{/isBasicBasic}}{{/isBasic}}
         {{#isApiKey}}
-        auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{^isKeyInHeader}}"query"{{/isKeyInHeader}}, "{{keyParamName}}");
+        auth = new ApiKeyAuth({{#isKeyInHeader}}"header"{{/isKeyInHeader}}{{#isKeyInQuery}}"query"{{/isKeyInQuery}}{{#isKeyInCookie}}"cookie"{{/isKeyInCookie}}, "{{keyParamName}}");
         {{/isApiKey}}
         {{#isOAuth}}
         auth = new OAuth(OAuthFlow.{{flow}}, "{{authorizationUrl}}", "{{tokenUrl}}", "{{#scopes}}{{scope}}{{#hasMore}}, {{/hasMore}}{{/scopes}}");
@@ -203,6 +208,21 @@ public class ApiClient {
       if (apiAuthorization instanceof ApiKeyAuth) {
         ApiKeyAuth keyAuth = (ApiKeyAuth) apiAuthorization;
         keyAuth.setApiKey(apiKey);
+        return this;
+      }
+    }
+    return this;
+  }
+
+  /**
+   * Helper method to set token for the first Http Bearer authentication found.
+   * @param bearerToken Bearer token
+   * @return ApiClient
+   */
+  public ApiClient setBearerToken(String bearerToken) {
+    for (Interceptor apiAuthorization : apiAuthorizations.values()) {
+      if (apiAuthorization instanceof HttpBearerAuth) {
+        ((HttpBearerAuth) apiAuthorization).setBearerToken(bearerToken);
         return this;
       }
     }

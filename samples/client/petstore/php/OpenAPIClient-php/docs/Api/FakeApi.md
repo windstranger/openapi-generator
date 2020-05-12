@@ -12,14 +12,17 @@ Method | HTTP request | Description
 [**testBodyWithFileSchema**](FakeApi.md#testBodyWithFileSchema) | **PUT** /fake/body-with-file-schema | 
 [**testBodyWithQueryParams**](FakeApi.md#testBodyWithQueryParams) | **PUT** /fake/body-with-query-params | 
 [**testClientModel**](FakeApi.md#testClientModel) | **PATCH** /fake | To test \&quot;client\&quot; model
-[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+[**testEndpointParameters**](FakeApi.md#testEndpointParameters) | **POST** /fake | Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 [**testEnumParameters**](FakeApi.md#testEnumParameters) | **GET** /fake | To test enum parameters
 [**testGroupParameters**](FakeApi.md#testGroupParameters) | **DELETE** /fake | Fake endpoint to test group parameters (optional)
 [**testInlineAdditionalProperties**](FakeApi.md#testInlineAdditionalProperties) | **POST** /fake/inline-additionalProperties | test inline additionalProperties
 [**testJsonFormData**](FakeApi.md#testJsonFormData) | **GET** /fake/jsonFormData | test json serialization of form data
+[**testQueryParameterCollectionFormat**](FakeApi.md#testQueryParameterCollectionFormat) | **PUT** /fake/test-query-paramters | 
 
 
-# **createXmlItem**
+
+## createXmlItem
+
 > createXmlItem($xml_item)
 
 creates an XmlItem
@@ -27,6 +30,7 @@ creates an XmlItem
 this route creates an XmlItem
 
 ### Example
+
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -49,6 +53,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **xml_item** | [**\OpenAPI\Client\Model\XmlItem**](../Model/XmlItem.md)| XmlItem Body |
@@ -63,12 +68,16 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
- - **Accept**: Not defined
+- **Content-Type**: application/xml, application/xml; charset=utf-8, application/xml; charset=utf-16, text/xml, text/xml; charset=utf-8, text/xml; charset=utf-16
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
 
-# **fakeOuterBooleanSerialize**
+
+## fakeOuterBooleanSerialize
+
 > bool fakeOuterBooleanSerialize($body)
 
 
@@ -76,6 +85,7 @@ No authorization required
 Test serialization of outer boolean types
 
 ### Example
+
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -99,6 +109,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **bool**| Input boolean as post body | [optional]
@@ -113,12 +124,16 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
 
-# **fakeOuterCompositeSerialize**
+
+## fakeOuterCompositeSerialize
+
 > \OpenAPI\Client\Model\OuterComposite fakeOuterCompositeSerialize($body)
 
 
@@ -126,6 +141,7 @@ No authorization required
 Test serialization of object with outer number type
 
 ### Example
+
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -149,6 +165,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**\OpenAPI\Client\Model\OuterComposite**](../Model/OuterComposite.md)| Input composite as post body | [optional]
@@ -163,12 +180,16 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
 
-# **fakeOuterNumberSerialize**
+
+## fakeOuterNumberSerialize
+
 > float fakeOuterNumberSerialize($body)
 
 
@@ -176,6 +197,7 @@ No authorization required
 Test serialization of outer number types
 
 ### Example
+
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -199,6 +221,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **float**| Input number as post body | [optional]
@@ -213,12 +236,16 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
 
-# **fakeOuterStringSerialize**
+
+## fakeOuterStringSerialize
+
 > string fakeOuterStringSerialize($body)
 
 
@@ -226,6 +253,7 @@ No authorization required
 Test serialization of outer string types
 
 ### Example
+
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -249,6 +277,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **string**| Input string as post body | [optional]
@@ -263,12 +292,16 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: */*
+- **Content-Type**: Not defined
+- **Accept**: */*
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
 
-# **testBodyWithFileSchema**
+
+## testBodyWithFileSchema
+
 > testBodyWithFileSchema($body)
 
 
@@ -276,6 +309,7 @@ No authorization required
 For this test, the body for this request much reference a schema named `File`.
 
 ### Example
+
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -298,6 +332,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**\OpenAPI\Client\Model\FileSchemaTestClass**](../Model/FileSchemaTestClass.md)|  |
@@ -312,17 +347,22 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
 
-# **testBodyWithQueryParams**
+
+## testBodyWithQueryParams
+
 > testBodyWithQueryParams($query, $body)
 
 
 
 ### Example
+
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -346,6 +386,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **query** | **string**|  |
@@ -361,12 +402,16 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
 
-# **testClientModel**
+
+## testClientModel
+
 > \OpenAPI\Client\Model\Client testClientModel($body)
 
 To test \"client\" model
@@ -374,6 +419,7 @@ To test \"client\" model
 To test \"client\" model
 
 ### Example
+
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -397,6 +443,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | [**\OpenAPI\Client\Model\Client**](../Model/Client.md)| client model |
@@ -411,22 +458,28 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: application/json
+- **Content-Type**: application/json
+- **Accept**: application/json
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
 
-# **testEndpointParameters**
+
+## testEndpointParameters
+
 > testEndpointParameters($number, $double, $pattern_without_delimiter, $byte, $integer, $int32, $int64, $float, $string, $binary, $date, $date_time, $password, $callback)
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
-Fake endpoint for testing various parameters 假端點 偽のエンドポイント 가짜 엔드 포인트
+Fake endpoint for testing various parameters  假端點  偽のエンドポイント  가짜 엔드 포인트
 
 ### Example
+
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
+
 
 // Configure HTTP basic authorization: http_basic_test
 $config = OpenAPI\Client\Configuration::getDefaultConfiguration()
@@ -465,6 +518,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **number** | **float**| None |
@@ -492,12 +546,16 @@ void (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
 
-# **testEnumParameters**
+
+## testEnumParameters
+
 > testEnumParameters($enum_header_string_array, $enum_header_string, $enum_query_string_array, $enum_query_string, $enum_query_integer, $enum_query_double, $enum_form_string_array, $enum_form_string)
 
 To test enum parameters
@@ -505,6 +563,7 @@ To test enum parameters
 To test enum parameters
 
 ### Example
+
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -534,6 +593,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **enum_header_string_array** | [**string[]**](../Model/string.md)| Header parameter enum test (string array) | [optional]
@@ -555,12 +615,16 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
 
-# **testGroupParameters**
+
+## testGroupParameters
+
 > testGroupParameters($required_string_group, $required_boolean_group, $required_int64_group, $string_group, $boolean_group, $int64_group)
 
 Fake endpoint to test group parameters (optional)
@@ -568,6 +632,7 @@ Fake endpoint to test group parameters (optional)
 Fake endpoint to test group parameters (optional)
 
 ### Example
+
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -594,6 +659,7 @@ try {
 ```
 
 ### Parameters
+
 Note: the input parameter is an associative array with the keys listed as the parameter name below.
 
 
@@ -616,17 +682,22 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: Not defined
+- **Content-Type**: Not defined
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
 
-# **testInlineAdditionalProperties**
+
+## testInlineAdditionalProperties
+
 > testInlineAdditionalProperties($param)
 
 test inline additionalProperties
 
 ### Example
+
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -649,6 +720,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **param** | [**map[string,string]**](../Model/string.md)| request body |
@@ -663,17 +735,22 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
- - **Accept**: Not defined
+- **Content-Type**: application/json
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
 
-# **testJsonFormData**
+
+## testJsonFormData
+
 > testJsonFormData($param, $param2)
 
 test json serialization of form data
 
 ### Example
+
 ```php
 <?php
 require_once(__DIR__ . '/vendor/autoload.php');
@@ -697,6 +774,7 @@ try {
 
 ### Parameters
 
+
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **param** | **string**| field1 |
@@ -712,8 +790,73 @@ No authorization required
 
 ### HTTP request headers
 
- - **Content-Type**: application/x-www-form-urlencoded
- - **Accept**: Not defined
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: Not defined
 
-[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints) [[Back to Model list]](../../README.md#documentation-for-models) [[Back to README]](../../README.md)
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
+
+
+## testQueryParameterCollectionFormat
+
+> testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context)
+
+
+
+To test the collection format in query parameters
+
+### Example
+
+```php
+<?php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+
+$apiInstance = new OpenAPI\Client\Api\FakeApi(
+    // If you want use custom http client, pass your client which implements `GuzzleHttp\ClientInterface`.
+    // This is optional, `GuzzleHttp\Client` will be used as default.
+    new GuzzleHttp\Client()
+);
+$pipe = array('pipe_example'); // string[] | 
+$ioutil = array('ioutil_example'); // string[] | 
+$http = array('http_example'); // string[] | 
+$url = array('url_example'); // string[] | 
+$context = array('context_example'); // string[] | 
+
+try {
+    $apiInstance->testQueryParameterCollectionFormat($pipe, $ioutil, $http, $url, $context);
+} catch (Exception $e) {
+    echo 'Exception when calling FakeApi->testQueryParameterCollectionFormat: ', $e->getMessage(), PHP_EOL;
+}
+?>
+```
+
+### Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **pipe** | [**string[]**](../Model/string.md)|  |
+ **ioutil** | [**string[]**](../Model/string.md)|  |
+ **http** | [**string[]**](../Model/string.md)|  |
+ **url** | [**string[]**](../Model/string.md)|  |
+ **context** | [**string[]**](../Model/string.md)|  |
+
+### Return type
+
+void (empty response body)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: Not defined
+
+[[Back to top]](#) [[Back to API list]](../../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../../README.md#documentation-for-models)
+[[Back to README]](../../README.md)
 

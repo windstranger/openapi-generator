@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,10 +17,13 @@
 
 package org.openapitools.codegen;
 
+import java.util.Objects;
+
 public class SupportingFile {
     public String templateFile;
     public String folder;
     public String destinationFilename;
+    public boolean canOverwrite = true;
 
     public SupportingFile(String templateFile, String destinationFilename) {
         this(templateFile, "", destinationFilename);
@@ -33,14 +36,8 @@ public class SupportingFile {
     }
 
     @Override
-    public String toString() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("SupportingFile:").append("\n");
-        builder.append("\ttemplateFile: ").append(templateFile).append("\n");
-        builder.append("\tfolder: ").append(folder).append("\n");
-        builder.append("\tdestinationFilename: ").append(destinationFilename).append("\n");
-
-        return builder.toString();
+    public int hashCode() {
+        return Objects.hash(templateFile, folder, destinationFilename, canOverwrite);
     }
 
     @Override
@@ -50,20 +47,33 @@ public class SupportingFile {
 
         SupportingFile that = (SupportingFile) o;
 
-        if (templateFile != null ? !templateFile.equals(that.templateFile) : that.templateFile != null)
-            return false;
-        if (folder != null ? !folder.equals(that.folder) : that.folder != null)
-            return false;
-        return destinationFilename != null ? destinationFilename.equals(that.destinationFilename) : that.destinationFilename == null;
-
+        return Objects.equals(templateFile, that.templateFile) &&
+                Objects.equals(folder, that.folder) &&
+                Objects.equals(destinationFilename, that.destinationFilename) &&
+                canOverwrite == that.canOverwrite;
     }
 
+    @SuppressWarnings("StringBufferReplaceableByString")
     @Override
-    public int hashCode() {
-        int result = templateFile != null ? templateFile.hashCode() : 0;
-        result = 31 * result + (folder != null ? folder.hashCode() : 0);
-        result = 31 * result + (destinationFilename != null ? destinationFilename.hashCode() : 0);
-        return result;
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("SupportingFile:").append("\n");
+        builder.append("\ttemplateFile: ").append(templateFile).append("\n");
+        builder.append("\tfolder: ").append(folder).append("\n");
+        builder.append("\tcanOverwrite: ").append(Boolean.valueOf(canOverwrite)).append("\n");
+        builder.append("\tdestinationFilename: ").append(destinationFilename).append("\n");
+
+        return builder.toString();
+    }
+
+    /**
+     * Identifies this instance as referring to a supporting file which should not overwrite a file of the same name.
+     *
+     * @return This object, for chaining.
+     */
+    public SupportingFile doNotOverwrite() {
+        canOverwrite = false;
+        return this;
     }
 }
 

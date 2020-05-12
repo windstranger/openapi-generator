@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,7 +18,10 @@ package org.openapitools.codegen.slim;
 
 import org.openapitools.codegen.languages.PhpSlimServerCodegen;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.io.File;
 
 public class PhpSlimServerCodegenTest {
 
@@ -42,5 +45,45 @@ public class PhpSlimServerCodegenTest {
         // from FastRoute\RouteParser\Std.php
         Assert.assertEquals(codegen.encodePath("/user/{name}[/{id:[0-9]+}]"), "/user/{name}[/{id:[0-9]+}]");
         Assert.assertEquals(codegen.encodePath("/fixedRoutePart/{varName}[/moreFixed/{varName2:\\d+}]"), "/fixedRoutePart/{varName}[/moreFixed/{varName2:\\d+}]");
+    }
+
+    @Test(dataProvider = "modelFileFolderProvider")
+    public void modelFileFolder(String modelPackage, String invokerPackage, String expected) {
+        final PhpSlimServerCodegen codegen = new PhpSlimServerCodegen();
+        codegen.setModelPackage(modelPackage);
+        codegen.setInvokerPackage(invokerPackage);
+
+        Assert.assertEquals(codegen.modelFileFolder(), expected);
+    }
+
+    @DataProvider(name = "modelFileFolderProvider")
+    public Object[][] modelFileFolderProvider() {
+        return new Object[][] {
+            // {modelPackage, invokerPackage, expected}
+            {"Model", "Invoker", "generated-code/slim/lib/Model".replace('/', File.separatorChar)},
+            {"Petstore", "Petstore", "generated-code/slim/lib".replace('/', File.separatorChar)},
+            {"Package\\SubPackage\\Model", "Package\\SubPackage", "generated-code/slim/lib/Model".replace('/', File.separatorChar)},
+            {"Websupport\\InvoiceValidation\\Model", "Websupport\\InvoiceValidation", "generated-code/slim/lib/Model".replace('/', File.separatorChar)},
+        };
+    }
+
+    @Test(dataProvider = "apiFileFolderProvider")
+    public void apiFileFolder(String modelPackage, String invokerPackage, String expected) {
+        final PhpSlimServerCodegen codegen = new PhpSlimServerCodegen();
+        codegen.setApiPackage(modelPackage);
+        codegen.setInvokerPackage(invokerPackage);
+
+        Assert.assertEquals(codegen.apiFileFolder(), expected);
+    }
+
+    @DataProvider(name = "apiFileFolderProvider")
+    public Object[][] apiFileFolderProvider() {
+        return new Object[][] {
+                // {apiPackage, invokerPackage, expected}
+                {"Api", "Invoker", "generated-code/slim/lib/Api".replace('/', File.separatorChar)},
+                {"Petstore", "Petstore", "generated-code/slim/lib".replace('/', File.separatorChar)},
+                {"Package\\SubPackage\\Api", "Package\\SubPackage", "generated-code/slim/lib/Api".replace('/', File.separatorChar)},
+                {"Websupport\\InvoiceValidation\\Api", "Websupport\\InvoiceValidation", "generated-code/slim/lib/Api".replace('/', File.separatorChar)},
+        };
     }
 }

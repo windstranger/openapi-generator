@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,9 +22,17 @@ import org.openapitools.codegen.CodegenConstants;
 import org.openapitools.codegen.CodegenType;
 import org.openapitools.codegen.SupportingFile;
 
+import org.openapitools.codegen.meta.GeneratorMetadata;
+import org.openapitools.codegen.meta.Stability;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 
 public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CSharpDotNet2ClientCodegen.class);
+
     public static final String CLIENT_PACKAGE = "clientPackage";
     protected String clientPackage = "Org.OpenAPITools.Client";
     protected String apiDocPath = "docs/";
@@ -32,6 +40,12 @@ public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
 
     public CSharpDotNet2ClientCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+
+        generatorMetadata = GeneratorMetadata.newBuilder(generatorMetadata)
+                .stability(Stability.DEPRECATED)
+                .build();
 
         // clear import mapping (from default generator) as C# (2.0) does not use it
         // at the moment
@@ -62,6 +76,8 @@ public class CSharpDotNet2ClientCodegen extends AbstractCSharpCodegen {
 
     @Override
     public void processOpts() {
+        LOGGER.warn("Per Microsoft Product Lifecycle (https://support.microsoft.com/en-us/lifecycle/search?sort=PN&alpha=.NET%20Framework&Filter=FilterNO), support for .NET Framework 2.0 ended in 2011 so there may be security issues using the auto-generated C# 2.0 source code.");
+
         super.processOpts();
 
         if (additionalProperties.containsKey(CLIENT_PACKAGE)) {

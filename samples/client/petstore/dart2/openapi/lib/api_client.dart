@@ -18,7 +18,7 @@ class ApiClient {
   final _regList = RegExp(r'^List<(.*)>$');
   final _regMap = RegExp(r'^Map<String,(.*)>$');
 
-  ApiClient({this.basePath: "http://petstore.swagger.io/v2"}) {
+  ApiClient({this.basePath = "http://petstore.swagger.io/v2"}) {
     // Setup authentications (key: authentication name, value: authentication).
     _authentications['api_key'] = ApiKeyAuth("header", "api_key");
     _authentications['petstore_auth'] = OAuth();
@@ -105,7 +105,10 @@ class ApiClient {
 
     _updateParamsForAuth(authNames, queryParams, headerParams);
 
-    var ps = queryParams.where((p) => p.value != null).map((p) => '${p.name}=${p.value}');
+    var ps = queryParams
+      .where((p) => p.value != null)
+      .map((p) => '${p.name}=${Uri.encodeQueryComponent(p.value)}');
+
     String queryString = ps.isNotEmpty ?
                          '?' + ps.join('&') :
                          '';
@@ -134,6 +137,8 @@ class ApiClient {
           return client.delete(url, headers: headerParams);
         case "PATCH":
           return client.patch(url, headers: headerParams, body: msgBody);
+        case "HEAD":
+          return client.head(url, headers: headerParams);
         default:
           return client.get(url, headers: headerParams);
       }
@@ -150,11 +155,9 @@ class ApiClient {
     });
   }
 
-  void setAccessToken(String accessToken) {
-    _authentications.forEach((key, auth) {
-      if (auth is OAuth) {
-        auth.setAccessToken(accessToken);
-      }
-    });
+  T getAuthentication<T extends Authentication>(String name) {
+    var authentication = _authentications[name];
+
+    return authentication is T ? authentication : null;
   }
 }

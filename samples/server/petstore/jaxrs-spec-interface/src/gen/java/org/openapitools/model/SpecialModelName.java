@@ -26,15 +26,17 @@ public class SpecialModelName  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("$special[property.name]")
   public Long get$SpecialPropertyName() {
     return $specialPropertyName;
   }
+
   public void set$SpecialPropertyName(Long $specialPropertyName) {
     this.$specialPropertyName = $specialPropertyName;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -45,7 +47,7 @@ public class SpecialModelName  implements Serializable {
       return false;
     }
     SpecialModelName $specialModelName = (SpecialModelName) o;
-    return Objects.equals($specialPropertyName, $specialModelName.$specialPropertyName);
+    return Objects.equals(this.$specialPropertyName, $specialModelName.$specialPropertyName);
   }
 
   @Override
@@ -73,5 +75,7 @@ public class SpecialModelName  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

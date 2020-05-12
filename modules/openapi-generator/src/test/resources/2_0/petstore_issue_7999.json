@@ -6,7 +6,7 @@
     "title": "OpenAPI Petstore",
     "license": {
       "name": "Apache-2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      "url": "https://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
   "host": "petstore.swagger.io",
@@ -127,7 +127,7 @@
               "enum": ["available", "pending", "sold"]
             },
             "collectionFormat": "multi",
-            "default": "available"
+            "default": ["available"]
           }
         ],
         "responses": {

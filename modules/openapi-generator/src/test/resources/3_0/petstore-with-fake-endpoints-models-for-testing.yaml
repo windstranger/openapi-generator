@@ -8,7 +8,7 @@ info:
   title: OpenAPI Petstore
   license:
     name: Apache-2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
 tags:
   - name: pet
     description: Everything about your Pets
@@ -989,6 +989,57 @@ paths:
             schema:
               $ref: '#/components/schemas/FileSchemaTestClass'
         required: true
+  /fake/test-query-paramters:
+    put:
+      tags:
+        - fake
+      description: To test the collection format in query parameters
+      operationId: testQueryParameterCollectionFormat
+      parameters:
+        - name: pipe
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+        - name: ioutil
+          in: query
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: http
+          in: query
+          required: true
+          style: spaceDelimited
+          schema:
+            type: array
+            items:
+              type: string
+        - name: url
+          in: query
+          required: true
+          style: form
+          explode: false
+          schema:
+            type: array
+            items:
+              type: string
+        - name: context
+          in: query
+          required: true
+          explode: true
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        "200":
+          description: Success
   '/fake/{petId}/uploadImageWithRequiredFile':
     post:
       tags:
@@ -1042,6 +1093,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/HealthCheckResult'
+  /fake/http-signature-test:
+    get:
+      tags:
+        - fake
+      summary: test http signature authentication
+      operationId: fake-http-signature-test
+      parameters:
+        - name: query_1 
+          in: query
+          description: query parameter
+          required: optional 
+          schema:
+            type: string
+        - name: header_1 
+          in: header 
+          description: header parameter
+          required: optional 
+          schema:
+            type: string
+      security:
+        - http_signature_test: []
+      requestBody:
+        $ref: '#/components/requestBodies/Pet'
+      responses:
+        200:
+          description: The instance started successfully
 servers:
   - url: 'http://{server}.swagger.io:{port}/v2'
     description: petstore server
@@ -1117,6 +1194,9 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    http_signature_test:
+      type: http
+      scheme: signature 
   schemas:
     Foo:
       type: object
@@ -1380,7 +1460,7 @@ components:
           maxLength: 64
           minLength: 10
         pattern_with_digits:
-          description: A string that is a 10 digit number. Can have leading zeros. 
+          description: A string that is a 10 digit number. Can have leading zeros.
           type: string
           pattern: '^\d{10}$'
         pattern_with_digits_and_delimiter:
@@ -1425,6 +1505,12 @@ components:
             - -1.2
         outerEnum:
           $ref: '#/components/schemas/OuterEnum'
+        outerEnumInteger:
+          $ref: '#/components/schemas/OuterEnumInteger'
+        outerEnumDefaultValue:
+          $ref: '#/components/schemas/OuterEnumDefaultValue'
+        outerEnumIntegerDefaultValue:
+          $ref: '#/components/schemas/OuterEnumIntegerDefaultValue'
     AdditionalPropertiesClass:
       type: object
       properties:
@@ -1574,11 +1660,32 @@ components:
               - fish
               - crab
     OuterEnum:
+      nullable: true
       type: string
       enum:
         - placed
         - approved
         - delivered
+    OuterEnumInteger:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+    OuterEnumDefaultValue:
+      type: string
+      enum:
+      - placed
+      - approved
+      - delivered
+      default: placed
+    OuterEnumIntegerDefaultValue:
+      type: integer
+      enum:
+      - 0
+      - 1
+      - 2
+      default: 0
     OuterComposite:
       type: object
       properties:
@@ -1628,3 +1735,61 @@ components:
           nullable: true
           type: string
       description: Just a string to inform instance is up and running. Make it nullable in hope to get it as pointer in generated model.
+    NullableClass:
+      type: object
+      properties:
+        integer_prop:
+          type: integer
+          nullable: true
+        number_prop:
+          type: number
+          nullable: true
+        boolean_prop:
+          type: boolean
+          nullable: true
+        string_prop:
+          type: string
+          nullable: true
+        date_prop:
+          type: string
+          format: date
+          nullable: true
+        datetime_prop:
+          type: string
+          format: date-time
+          nullable: true
+        array_nullable_prop:
+          type: array
+          nullable: true
+          items:
+            type: object
+        array_and_items_nullable_prop:
+          type: array
+          nullable: true
+          items:
+            type: object
+            nullable: true
+        array_items_nullable:
+          type: array
+          items:
+            type: object
+            nullable: true
+        object_nullable_prop:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: object
+        object_and_items_nullable_prop:
+          type: object
+          nullable: true
+          additionalProperties:
+            type: object
+            nullable: true
+        object_items_nullable:
+          type: object
+          additionalProperties:
+            type: object
+            nullable: true
+      additionalProperties:
+        type: object
+        nullable: true

@@ -25,6 +25,22 @@ The most commonly used openapi-generator-cli commands are:
 
 See 'openapi-generator-cli help <command>' for more information on a specific
 command.
+```
+
+## version
+
+The version command provides version information, returning either the semver version by default or the git sha when passed `--sha`.
+
+```bash
+NAME
+        openapi-generator-cli version - Show version information
+
+SYNOPSIS
+        openapi-generator-cli version [--sha]
+
+OPTIONS
+        --sha
+            Git commit SHA version
 
 ```
 
@@ -38,9 +54,15 @@ NAME
         openapi-generator-cli list - Lists the available generators
 
 SYNOPSIS
-        openapi-generator-cli list [(-s | --short)]
+        openapi-generator-cli list [(-i <include> | --include <include>)]
+                [(-s | --short)]
 
 OPTIONS
+        -i <include>, --include <include>
+            comma-separated list of stability indexes to include (value:
+            all,beta,stable,experimental,deprecated). Excludes deprecated by
+            default.
+
         -s, --short
             shortened output (suitable for scripting)
 
@@ -72,8 +94,8 @@ SYNOPSIS
 
 OPTIONS
         -f <output format>, --format <output format>
-            Write output files in the desired format. Options are 'text' and
-            'markdown'. Default is 'text'.
+            Write output files in the desired format. Options are 'text',
+            'markdown' or 'yamlsample'. Default is 'text'.
 
         -g <generator name>, --generator-name <generator name>
             generator to get config help for
@@ -115,7 +137,7 @@ CONFIG OPTIONS
 	    Go package version. (Default: 1.0.0)
 
 	withGoCodegenComment
-	    whether to include Go codegen comment to disable Go Lint and collapse by default GitHub in PRs and diffs (Default: false)
+	    whether to include Go codegen comment to disable Go Lint and collapse by default in GitHub PRs and diffs (Default: false)
 
 	withXml
 	    whether to include support for application/xml content type and include XML annotations in the model (works with libraries that provide support for JSON and XML) (Default: false)
@@ -210,20 +232,21 @@ This command takes one or more parameters representing the args list you would o
 
 ```bash
 openapi-generator completion config-help
---named-header
 -o
 --output
+--named-header
 -g
 --generator-name
--l
---lang
+-f
+--format
+--markdown-header
 ```
 
 An example bash completion script can be found in the repo at [scripts/openapi-generator-cli-completion.bash](https://github.com/OpenAPITools/openapi-generator/blob/master/scripts/openapi-generator-cli-completion.bash).
 
 ## generate
 
-The `generate` command is the workhorse of the generator toolset. As such, it has _many_ more options and the previous commands. The options are abbreviated below, but you may expand the full descriptions.
+The `generate` command is the workhorse of the generator toolset. As such, it has _many_ more options available than the previous commands. The abbreviated options are below, but you may expand the full descriptions.
 
 
 ```bash
@@ -235,12 +258,14 @@ NAME
 SYNOPSIS
         openapi-generator-cli generate
                 [(-a <authorization> | --auth <authorization>)]
-                [--additional-properties <additional properties>...]
-                [--api-package <api package>] [--artifact-id <artifact id>]
-                [--artifact-version <artifact version>]
+                [--api-name-suffix <api name suffix>] [--api-package <api package>]
+                [--artifact-id <artifact id>] [--artifact-version <artifact version>]
                 [(-c <configuration file> | --config <configuration file>)]
-                [-D <system properties>...] [--enable-post-process-file]
+                [-D <system properties>...] [--dry-run]
+                [(-e <templating engine> | --engine <templating engine>)]
+                [--enable-post-process-file]
                 [(-g <generator name> | --generator-name <generator name>)]
+                [--generate-alias-as-model] [--git-host <git host>]
                 [--git-repo-id <git repo id>] [--git-user-id <git user id>]
                 [--group-id <group id>] [--http-user-agent <http user agent>]
                 (-i <spec file> | --input-spec <spec file>)
@@ -249,22 +274,24 @@ SYNOPSIS
                 [--instantiation-types <instantiation types>...]
                 [--invoker-package <invoker package>]
                 [--language-specific-primitives <language specific primitives>...]
-                [--library <library>] [--log-to-stderr]
+                [--library <library>] [--log-to-stderr] [--minimal-update]
                 [--model-name-prefix <model name prefix>]
                 [--model-name-suffix <model name suffix>]
                 [--model-package <model package>]
-                [(-o <output directory> | --output <output directory>)]
-                [--release-note <release note>] [--remove-operation-id-prefix]
+                [(-o <output directory> | --output <output directory>)] 
+                [(-p <additional properties> | --additional-properties <additional properties>)...]
+                [--package-name <package name>] [--release-note <release note>]
+                [--remove-operation-id-prefix]
                 [--reserved-words-mappings <reserved word mappings>...]
-                [(-s | --skip-overwrite)] [--skip-validate-spec]
+                [(-s | --skip-overwrite)] [--server-variables <server variables>...]
+                [--skip-validate-spec] [--strict-spec <true/false strict behavior>]
                 [(-t <template directory> | --template-dir <template directory>)]
                 [--type-mappings <type mappings>...] [(-v | --verbose)]
-
 ```
 
 <details>
-  <summary>generate OPTIONS</summary>
-  
+<summary>generate OPTIONS</summary>
+
 ```bash
 OPTIONS
         -a <authorization>, --auth <authorization>
@@ -272,36 +299,57 @@ OPTIONS
             remotely. Pass in a URL-encoded string of name:header with a comma
             separating multiple values
 
-        --additional-properties <additional properties>
-            sets additional properties that can be referenced by the mustache
-            templates in the format of name=value,name=value. You can also have
-            multiple occurrences of this option.
+        --api-name-suffix <api name suffix>
+            Suffix that will be appended to all API names ('tags'). Default:
+            Api. e.g. Pet => PetApi. Note: Only ruby, python, jaxrs generators
+            suppport this feature at the moment.
 
         --api-package <api package>
             package for generated api classes
 
         --artifact-id <artifact id>
-            artifactId in generated pom.xml
+            artifactId in generated pom.xml. This also becomes part of the
+            generated library's filename
 
         --artifact-version <artifact version>
-            artifact version in generated pom.xml
+            artifact version in generated pom.xml. This also becomes part of the
+            generated library's filename
 
         -c <configuration file>, --config <configuration file>
-            Path to json configuration file. File content should be in a json
-            format {"optionKey":"optionValue", "optionKey1":"optionValue1"...}
-            Supported options can be different for each language. Run
-            config-help -g {generator name} command for language specific config
-            options.
+            Path to configuration file. It can be JSON or YAML. If file is JSON,
+            the content should have the format {"optionKey":"optionValue",
+            "optionKey1":"optionValue1"...}. If file is YAML, the content should
+            have the format optionKey: optionValue. Supported options can be
+            different for each language. Run config-help -g {generator name}
+            command for language-specific config options.
 
         -D <system properties>
             sets specified system properties in the format of
             name=value,name=value (or multiple options, each with name=value)
 
+        --dry-run
+            Try things out and report on potential changes (without actually
+            making changes).
+
+        -e <templating engine>, --engine <templating engine>
+            templating engine: "mustache" (default) or "handlebars" (beta)
+
         --enable-post-process-file
-            enablePostProcessFile
+            Enable post-processing file using environment variables.
 
         -g <generator name>, --generator-name <generator name>
-            generator to use (see langs command for list)
+            generator to use (see list command for list)
+
+        --generate-alias-as-model
+            Generate model implementation for aliases to map and array schemas.
+            An 'alias' is an array, map, or list which is defined inline in a 
+            OpenAPI document and becomes a model in the generated code.
+            A 'map' schema is an object that can have undeclared properties,
+            i.e. the 'additionalproperties' attribute is set on that object.
+            An 'array' schema is a list of sub schemas in a OAS document.
+
+        --git-host <git host>
+            Git host, e.g. gitlab.com.
 
         --git-repo-id <git repo id>
             Git repo ID, e.g. openapi-generator.
@@ -314,7 +362,7 @@ OPTIONS
 
         --http-user-agent <http user agent>
             HTTP user agent, e.g. codegen_csharp_api_client, default to
-            'OpenAPI-Generator/{packageVersion}}/{language}'
+            'OpenAPI-Generator/{packageVersion}/{language}'
 
         -i <spec file>, --input-spec <spec file>
             location of the OpenAPI spec, as URL or file (required)
@@ -352,19 +400,29 @@ OPTIONS
             piping the JSON output of debug options (e.g. `-DdebugOperations`)
             to an external parser directly while testing a generator.
 
+        --minimal-update
+            Only write output files that have changed.
+
         --model-name-prefix <model name prefix>
-            Prefix that will be prepended to all model names. Default is the
-            empty string.
+            Prefix that will be prepended to all model names.
 
         --model-name-suffix <model name suffix>
-            Suffix that will be appended to all model names. Default is the
-            empty string.
+            Suffix that will be appended to all model names.
 
         --model-package <model package>
             package for generated models
 
         -o <output directory>, --output <output directory>
             where to write the generated files (current dir by default)
+
+        -p <additional properties>, --additional-properties <additional
+        properties>
+            sets additional properties that can be referenced by the mustache
+            templates in the format of name=value,name=value. You can also have
+            multiple occurrences of this option.
+
+        --package-name <package name>
+            package for generated classes (where supported)
 
         --release-note <release note>
             Release note, default to 'Minor update'.
@@ -381,15 +439,24 @@ OPTIONS
             specifies if the existing files should be overwritten during the
             generation.
 
+        --server-variables <server variables>
+            sets server variables overrides for spec documents which support
+            variable templating of servers.
+
         --skip-validate-spec
             Skips the default behavior of validating an input specification.
+
+        --strict-spec <true/false strict behavior>
+            'MUST' and 'SHALL' wording in OpenAPI spec is strictly adhered to.
+            e.g. when false, no fixes will be applied to documents which pass
+            validation but don't follow the spec.
 
         -t <template directory>, --template-dir <template directory>
             folder containing the template files
 
         --type-mappings <type mappings>
             sets mappings between OpenAPI spec types and generated code types in
-            the format of OpenaAPIType=generatedType,OpenAPIType=generatedType.
+            the format of OpenAPIType=generatedType,OpenAPIType=generatedType.
             For example: array=List,map=Map,string=String. You can also have
             multiple occurrences of this option.
 
@@ -407,6 +474,8 @@ At a minimum, `generate` requires:
 * `-o` to specify a meaningful output directory (defaults to the current directory!)
 * `-i` to specify the input OpenAPI document
 
+> **NOTE** You may also pass `-Dcolor` as a system property to colorize terminal outputs.
+
 ### Examples
 
 The following examples use [petstore.yaml](https://raw.githubusercontent.com/openapitools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml).
@@ -420,11 +489,13 @@ openapi-generator generate -g go --additional-properties=prependFormOrBodyParame
     -o out -i petstore.yaml
 ```
 
-To pass more than one generator property, these can be combined via comma:
+Pass more options via comma delimited key/value pairs:
 
 ```bash
 --additional-properties=key1=value1,key2=value2
 ```
+
+For the full list of generator-specific parameters, refer to [generators docs](./generators.md).
 
 #### Type Mappings and Import Mappings
 
@@ -446,8 +517,6 @@ openapi-generator generate \
     --import-mappings=DateTime=java.time.LocalDateTime \
     --type-mappings=DateTime=java.time.LocalDateTime
 ```
-
-<!-- TODO: Document all primitive types here -->
 
 > NOTE: mappings are applied to `DateTime`, as this is the representation of the primitive type. See [DefaultCodegen](https://github.com/OpenAPITools/openapi-generator/blob/7cee999543fcc00b7c1eb9f70f0456b707c7f9e2/modules/openapi-generator/src/main/java/org/openapitools/codegen/DefaultCodegen.java#L1431).
 
@@ -480,7 +549,7 @@ NOTE: `import-mappings` is assigned a key-value pair in this example, but multip
 
 #### Configuration File
 
-Rather than passing generator options in a CSV of `--additional-properties`, you may also provide the settings via JSON file.
+Rather than passing generator options in a CSV of `--additional-properties`, you may also provide the settings via JSON file or YAML file.
 
 For example, one of our typescript samples has the following configuration file:
 
@@ -500,3 +569,104 @@ These settings can be passed via `-c filename`. Here, we've saved the above as `
 openapi-generator generate -i petstore.yaml -g typescript-fetch -o out \
     -c config.json
 ```
+
+Same configuration file can be passed into YAML format having following equivalent content:
+
+```yaml
+npmName: "@swagger/typescript-fetch-petstore"
+npmVersion: "1.0.0"
+npmRepository: "https://skimdb.npmjs.com/registry"
+snapshot: false
+supportsES6: true
+```
+
+The settings are passed exactly the same as for `config.json`. The most important part is the file extension. Supported values are `yml` or `yaml`. 
+The name of the file should be `config.yml` or `config.yaml` (in our example it will be `config.yaml`.
+
+```bash
+openapi-generator generate -i petstore.yaml -g typescript-fetch -o out \
+    -c config.yaml
+```
+
+
+## batch
+
+The `batch` command allows you to move all CLI arguments supported by the `generate` command into a YAML or JSON file.
+
+*NOTE*: This command supports an additional `!include` property which may point to another "shared" file, the base path to which can be
+modified by `--includes-base-dir`.
+
+```bash
+openapi-generator help batch
+NAME
+        openapi-generator-cli batch - Generate code in batch via external
+        configs.
+
+SYNOPSIS
+        openapi-generator-cli batch [--fail-fast]
+                [--includes-base-dir <includes>] [(-r <threads> | --threads <threads>)]
+                [--root-dir <root>] [--timeout <timeout>] [(-v | --verbose)] [--]
+                <configs>...
+
+OPTIONS
+        --fail-fast
+            fail fast on any errors
+
+        --includes-base-dir <includes>
+            base directory used for includes
+
+        -r <threads>, --threads <threads>
+            thread count
+
+        --root-dir <root>
+            root directory used output/includes (includes can be overridden)
+
+        --timeout <timeout>
+            execution timeout (minutes)
+
+        -v, --verbose
+            verbose mode
+
+        --
+            This option can be used to separate command-line options from the
+            list of argument, (useful when arguments might be mistaken for
+            command-line options
+
+        <configs>
+            Generator configuration files.
+```
+
+Example:
+
+```bash
+# create "shared" config
+mkdir shared && cat > shared/common.yaml <<EOF
+inputSpec: https://raw.githubusercontent.com/OpenAPITools/openapi-generator/master/modules/openapi-generator/src/test/resources/2_0/petstore.yaml
+additionalProperties:
+    x-ext-name: "Your Name"
+EOF
+
+# create "standard" configs
+cat > kotlin.yaml <<EOF
+'!include': 'shared/common.yaml'
+outputDir: out/kotlin
+generatorName: kotlin
+artifactId: kotlin-petstore-string
+additionalProperties:
+  dateLibrary: string
+  serializableModel: "true"
+EOF
+
+cat > csharp.yaml <<EOF
+'!include': 'shared/common.yaml'
+outputDir: out/csharp-netcore
+generatorName: csharp-netcore
+additionalProperties:
+  packageGuid: "{321C8C3F-0156-40C1-AE42-D59761FB9B6C}"
+  useCompareNetObjects: "true"
+EOF
+
+# Generate them
+openapi-generator batch *.yaml
+```
+

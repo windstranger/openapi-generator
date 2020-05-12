@@ -4,22 +4,26 @@ package {{package}}
 {{#imports}}
 import {{import}}
 {{/imports}}
-import {{mainPackage}}.core._
-import {{mainPackage}}.core.CollectionFormats._
-import {{mainPackage}}.core.ApiKeyLocations._
+import {{invokerPackage}}._
+import {{invokerPackage}}.CollectionFormats._
+import {{invokerPackage}}.ApiKeyLocations._
 
 {{#operations}}
 object {{classname}} {
 
+  def apply(baseUrl: String = "{{{basePath}}}") = new {{classname}}(baseUrl)
+}
+
+class {{classname}}(baseUrl: String) {
+  
 {{#operation}}
 {{#javadocRenderer}}
 {{>javadoc}}
 {{/javadocRenderer}}
   def {{operationId}}({{>methodParameters}}): ApiRequest[{{>operationReturnType}}] =
-    ApiRequest[{{>operationReturnType}}](ApiMethods.{{httpMethod.toUpperCase}}, "{{{basePath}}}", "{{{path}}}", {{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}})
-      {{#authMethods}}{{#isApiKey}}.withApiKey(apiKey, "{{keyParamName}}", {{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}})
-      {{/isApiKey}}{{#isBasic}}.withCredentials(basicAuth)
-      {{/isBasic}}{{/authMethods}}{{#bodyParam}}.withBody({{paramName}})
+    ApiRequest[{{>operationReturnType}}](ApiMethods.{{httpMethod.toUpperCase}}, baseUrl, "{{{path}}}", {{#consumes.0}}"{{{mediaType}}}"{{/consumes.0}}{{^consumes}}"application/json"{{/consumes}})
+      {{#authMethods}}{{#isApiKey}}.withApiKey(apiKey, "{{keyParamName}}", {{#isKeyInQuery}}QUERY{{/isKeyInQuery}}{{#isKeyInHeader}}HEADER{{/isKeyInHeader}}{{#isKeyInCookie}}COOKIE{{/isKeyInCookie}})
+      {{/isApiKey}}{{#isBasic}}{{#isBasicBasic}}.withCredentials(basicAuth){{/isBasicBasic}}{{#isBasicBearer}}.withCredentials(bearerToken){{/isBasicBearer}}{{/isBasic}}{{/authMethods}}{{#bodyParam}}.withBody({{paramName}})
       {{/bodyParam}}{{#formParams}}.withFormParam({{>paramCreation}})
       {{/formParams}}{{#queryParams}}.withQueryParam({{>paramCreation}})
       {{/queryParams}}{{#pathParams}}.withPathParam({{>paramCreation}})
@@ -28,16 +32,20 @@ object {{classname}} {
       {{/dataType}}{{^dataType}}.with{{>responseState}}Response[Unit]({{code}})
       {{/dataType}}{{/isWildcard}}{{/responses}}{{#responses}}{{#isWildcard}}{{#dataType}}.withDefault{{>responseState}}Response[{{dataType}}]
       {{/dataType}}{{^dataType}}.withDefault{{>responseState}}Response[Unit]
-      {{/dataType}}{{/isWildcard}}{{/responses}}{{^responseHeaders.isEmpty}}
-  object {{#fnCapitalize}}{{operationId}}{{/fnCapitalize}}Headers { {{#responseHeaders}}
-    def {{{name}}}(r: ApiReturnWithHeaders) = r.get{{^isContainer}}{{baseType}}{{/isContainer}}{{#isContainer}}String{{/isContainer}}Header("{{baseName}}"){{/responseHeaders}}
+      {{/dataType}}{{/isWildcard}}{{/responses}}
+  {{^responseHeaders.isEmpty}}
+  object {{#fnCapitalize}}{{operationId}}{{/fnCapitalize}}Headers {
+  {{#responseHeaders}}
+    def {{{name}}}(r: ApiReturnWithHeaders) = r.get{{^isContainer}}{{baseType}}{{/isContainer}}{{#isContainer}}String{{/isContainer}}Header("{{baseName}}")
+  {{/responseHeaders}}
   }
   {{/responseHeaders.isEmpty}}
+
 {{/operation}}
 
-{{#unknownStatusCodes}}
+  {{#unknownStatusCodes}}
   ApiInvoker.addCustomStatusCode({{{value}}}, isSuccess = false)
-{{/unknownStatusCodes}}
+  {{/unknownStatusCodes}}
 
 }
 

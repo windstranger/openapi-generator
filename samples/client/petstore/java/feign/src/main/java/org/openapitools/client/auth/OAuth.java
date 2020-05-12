@@ -80,14 +80,14 @@ public class OAuth implements RequestInterceptor {
         }
         // If first time, get the token
         if (expirationTimeMillis == null || System.currentTimeMillis() >= expirationTimeMillis) {
-            updateAccessToken();
+            updateAccessToken(template);
         }
         if (getAccessToken() != null) {
             template.header("Authorization", "Bearer " + getAccessToken());
         }
     }
 
-    public synchronized void updateAccessToken() {
+    public synchronized void updateAccessToken(RequestTemplate template) {
         OAuthJSONAccessTokenResponse accessTokenResponse;
         try {
             accessTokenResponse = oauthClient.accessToken(tokenRequestBuilder.buildBodyMessage());
@@ -112,7 +112,7 @@ public class OAuth implements RequestInterceptor {
 
     public synchronized void setAccessToken(String accessToken, Long expiresIn) {
         this.accessToken = accessToken;
-        this.expirationTimeMillis = System.currentTimeMillis() + expiresIn * MILLIS_PER_SECOND;
+        this.expirationTimeMillis = expiresIn == null ? null : System.currentTimeMillis() + expiresIn * MILLIS_PER_SECOND;
     }
 
     public TokenRequestBuilder getTokenRequestBuilder() {

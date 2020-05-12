@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -54,15 +54,21 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
         supportsInheritance = true;
 
-        sourceFolder = "src/gen/java";
+        sourceFolder = "src"+ File.separator +"gen"+ File.separator +"java";
         invokerPackage = "org.openapitools.api";
         artifactId = "openapi-jaxrs-client";
         dateLibrary = "legacy"; //TODO: add joda support to all jax-rs
-
         apiPackage = "org.openapitools.api";
         modelPackage = "org.openapitools.model";
-
         outputFolder = "generated-code/JavaJaxRS-CXF";
+
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
+        updateOption(this.DATE_LIBRARY, this.getDateLibrary());
 
         // clear model and api doc template as this codegen
         // does not support auto-generated markdown doc at the moment
@@ -72,16 +78,13 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
 
         typeMapping.put("date", "LocalDate");
-
         importMapping.put("LocalDate", "org.joda.time.LocalDate");
 
         embeddedTemplateDir = templateDir = JAXRS_TEMPLATE_DIRECTORY_NAME + File.separator + "cxf";
 
         cliOptions.add(CliOption.newBoolean(USE_BEANVALIDATION, "Use BeanValidation API annotations"));
-
         cliOptions.add(CliOption.newBoolean(USE_GZIP_FEATURE_FOR_TESTS, "Use Gzip Feature for tests"));
         cliOptions.add(CliOption.newBoolean(USE_LOGGING_FEATURE_FOR_TESTS, "Use Logging Feature for tests"));
-
         cliOptions.add(CliOption.newBoolean(USE_GENERIC_RESPONSE, "Use generic response"));
     }
 
@@ -109,7 +112,8 @@ public class JavaCXFClientCodegen extends AbstractJavaCodegen
 
         supportingFiles.clear(); // Don't need extra files provided by AbstractJAX-RS & Java Codegen
 
-        writeOptional(outputFolder, new SupportingFile("pom.mustache", "", "pom.xml"));
+        supportingFiles.add(new SupportingFile("pom.mustache", "", "pom.xml")
+            .doNotOverwrite());
 
     }
 

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,18 +51,18 @@ public class ZipUtil {
     public void compressFiles(List<File> listFiles, String destZipFile)
             throws IOException {
 
-        ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(destZipFile));
+        try (ZipOutputStream zos = new ZipOutputStream(new FileOutputStream(destZipFile))) {
 
-        for (File file : listFiles) {
-            if (file.isDirectory()) {
-                addFolderToZip(file, file.getName(), zos);
-            } else {
-                addFileToZip(file, zos);
+            for (File file : listFiles) {
+                if (file.isDirectory()) {
+                    addFolderToZip(file, file.getName(), zos);
+                } else {
+                    addFileToZip(file, zos);
+                }
             }
-        }
 
-        zos.flush();
-        zos.close();
+            zos.flush();
+        }
     }
 
     /**
@@ -84,15 +84,12 @@ public class ZipUtil {
 
             zos.putNextEntry(new ZipEntry(parentFolder + "/" + file.getName()));
 
-            BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-
-            long bytesRead = 0;
-            byte[] bytesIn = new byte[BUFFER_SIZE];
-            int read = 0;
-
-            while ((read = bis.read(bytesIn)) != -1) {
-                zos.write(bytesIn, 0, read);
-                bytesRead += read;
+            try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
+                byte[] bytesIn = new byte[BUFFER_SIZE];
+                int read;
+                while ((read = bis.read(bytesIn)) != -1) {
+                    zos.write(bytesIn, 0, read);
+                }
             }
 
             zos.closeEntry();
@@ -112,13 +109,12 @@ public class ZipUtil {
             IOException {
         zos.putNextEntry(new ZipEntry(file.getName()));
 
-        BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
-
-        byte[] bytesIn = new byte[BUFFER_SIZE];
-        int read = 0;
-
-        while ((read = bis.read(bytesIn)) != -1) {
-            zos.write(bytesIn, 0, read);
+        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file))) {
+            byte[] bytesIn = new byte[BUFFER_SIZE];
+            int read;
+            while ((read = bis.read(bytesIn)) != -1) {
+                zos.write(bytesIn, 0, read);
+            }
         }
 
         zos.closeEntry();

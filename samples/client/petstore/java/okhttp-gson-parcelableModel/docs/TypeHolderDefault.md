@@ -1,7 +1,9 @@
 
+
 # TypeHolderDefault
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **stringItem** | **String** |  | 
@@ -10,5 +12,9 @@ Name | Type | Description | Notes
 **boolItem** | **Boolean** |  | 
 **arrayItem** | **List&lt;Integer&gt;** |  | 
 
+
+## Implemented Interfaces
+
+* Parcelable
 
 

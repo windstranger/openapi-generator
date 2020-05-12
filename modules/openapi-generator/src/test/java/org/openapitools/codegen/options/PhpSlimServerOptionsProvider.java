@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,17 +30,16 @@ public class PhpSlimServerOptionsProvider implements OptionsProvider {
     public static final String INVOKER_PACKAGE_VALUE = "OpenAPIServer";
     public static final String PACKAGE_NAME_VALUE = "";
     public static final String SRC_BASE_PATH_VALUE = "src";
-    public static final String GIT_USER_ID_VALUE = "gitOpenAPIToolsPhp";
-    public static final String GIT_REPO_ID_VALUE = "git-openapi-tools-php";
     public static final String ARTIFACT_VERSION_VALUE = "1.0.0";
     public static final String SORT_PARAMS_VALUE = "false";
+    public static final String SORT_MODEL_PROPERTIES_VALUE = "false";
     public static final String ENSURE_UNIQUE_PARAMS_VALUE = "true";
     public static final String ALLOW_UNICODE_IDENTIFIERS_VALUE = "false";
     public static final String PREPEND_FORM_OR_BODY_PARAMETERS_VALUE = "true";
 
     @Override
     public String getLanguage() {
-        return "slim";
+        return "php-slim";
     }
 
     @Override
@@ -52,13 +51,13 @@ public class PhpSlimServerOptionsProvider implements OptionsProvider {
                 .put(AbstractPhpCodegen.SRC_BASE_PATH, SRC_BASE_PATH_VALUE)
                 .put(CodegenConstants.API_PACKAGE, API_PACKAGE_VALUE)
                 .put(CodegenConstants.INVOKER_PACKAGE, INVOKER_PACKAGE_VALUE)
-                .put(CodegenConstants.GIT_USER_ID, GIT_USER_ID_VALUE)
-                .put(CodegenConstants.GIT_REPO_ID, GIT_REPO_ID_VALUE)
                 .put(CodegenConstants.ARTIFACT_VERSION, ARTIFACT_VERSION_VALUE)
                 .put(CodegenConstants.SORT_PARAMS_BY_REQUIRED_FLAG, SORT_PARAMS_VALUE)
+                .put(CodegenConstants.SORT_MODEL_PROPERTIES_BY_REQUIRED_FLAG, SORT_MODEL_PROPERTIES_VALUE)
                 .put(CodegenConstants.ENSURE_UNIQUE_PARAMS, ENSURE_UNIQUE_PARAMS_VALUE)
                 .put(CodegenConstants.ALLOW_UNICODE_IDENTIFIERS, ALLOW_UNICODE_IDENTIFIERS_VALUE)
                 .put(CodegenConstants.PREPEND_FORM_OR_BODY_PARAMETERS, PREPEND_FORM_OR_BODY_PARAMETERS_VALUE)
+                .put(CodegenConstants.LEGACY_DISCRIMINATOR_BEHAVIOR, "true")
                 .build();
     }
 

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,6 +24,9 @@ import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.oas.models.servers.ServerVariable;
+import org.openapitools.codegen.api.TemplatingEngineAdapter;
+import org.openapitools.codegen.meta.FeatureSet;
+import org.openapitools.codegen.meta.GeneratorMetadata;
 
 import java.io.File;
 import java.util.List;
@@ -31,6 +34,8 @@ import java.util.Map;
 import java.util.Set;
 
 public interface CodegenConfig {
+    GeneratorMetadata getGeneratorMetadata();
+
     CodegenType getTag();
 
     String getName();
@@ -38,6 +43,8 @@ public interface CodegenConfig {
     String getHelp();
 
     Map<String, Object> additionalProperties();
+
+    Map<String, String> serverVariableOverrides();
 
     Map<String, Object> vendorExtensions();
 
@@ -149,6 +156,8 @@ public interface CodegenConfig {
 
     Compiler processCompiler(Compiler compiler);
 
+    TemplatingEngineAdapter processTemplatingEngine(TemplatingEngineAdapter templatingEngine);
+
     String sanitizeTag(String tag);
 
     String toApiFilename(String name);
@@ -214,6 +223,10 @@ public interface CodegenConfig {
      */
     String getLibrary();
 
+    void setGitHost(String gitHost);
+
+    String getGitHost();
+
     void setGitUserId(String gitUserId);
 
     String getGitUserId();
@@ -260,4 +273,21 @@ public interface CodegenConfig {
      */
     void setOpenAPI(OpenAPI openAPI);
 
+    void setTemplatingEngine(TemplatingEngineAdapter s);
+
+    TemplatingEngineAdapter getTemplatingEngine();
+
+    public boolean isEnableMinimalUpdate();
+
+    public void setEnableMinimalUpdate(boolean isEnableMinimalUpdate);
+
+    boolean isStrictSpecBehavior();
+
+    void setStrictSpecBehavior(boolean strictSpecBehavior);
+
+    FeatureSet getFeatureSet();
+
+    boolean isRemoveEnumValuePrefix();
+
+    void setRemoveEnumValuePrefix(boolean removeEnumValuePrefix);
 }

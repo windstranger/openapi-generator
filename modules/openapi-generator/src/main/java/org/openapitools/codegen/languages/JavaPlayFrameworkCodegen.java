@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,6 +20,9 @@ package org.openapitools.codegen.languages;
 import io.swagger.v3.oas.models.media.Schema;
 import org.openapitools.codegen.*;
 import org.openapitools.codegen.languages.features.BeanValidationFeatures;
+import org.openapitools.codegen.meta.features.DocumentationFeature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
@@ -28,10 +31,11 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.openapitools.codegen.utils.OnceLogger.once;
 import static org.openapitools.codegen.utils.StringUtils.camelize;
 
 public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements BeanValidationFeatures {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(JavaPlayFrameworkCodegen.class);
     public static final String TITLE = "title";
     public static final String CONFIG_PACKAGE = "configPackage";
     public static final String BASE_PACKAGE = "basePackage";
@@ -53,6 +57,9 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
     public JavaPlayFrameworkCodegen() {
         super();
+
+        modifyFeatureSet(features -> features.includeDocumentationFeatures(DocumentationFeature.Readme));
+
         outputFolder = "generated-code/javaPlayFramework";
         apiTestTemplateFiles.clear();
         embeddedTemplateDir = templateDir = "JavaPlayFramework";
@@ -62,16 +69,23 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
         artifactId = "openapi-java-playframework";
 
         projectFolder = "";
-        sourceFolder = projectFolder + File.separator + "app";
-        projectTestFolder = projectFolder + File.separator + "test";
+        sourceFolder = projectFolder + "/app";
+        projectTestFolder = projectFolder + "/test";
         testFolder = projectTestFolder;
+
+        // clioOptions default redifinition need to be updated
+        updateOption(CodegenConstants.SOURCE_FOLDER, this.getSourceFolder());
+        updateOption(CodegenConstants.INVOKER_PACKAGE, this.getInvokerPackage());
+        updateOption(CodegenConstants.ARTIFACT_ID, this.getArtifactId());
+        updateOption(CodegenConstants.API_PACKAGE, apiPackage);
+        updateOption(CodegenConstants.MODEL_PACKAGE, modelPackage);
 
         additionalProperties.put("java8", true);
         additionalProperties.put("jackson", "true");
 
-        cliOptions.add(new CliOption(TITLE, "server title name or client service name"));
-        cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code"));
-        cliOptions.add(new CliOption(BASE_PACKAGE, "base package for generated code"));
+        cliOptions.add(new CliOption(TITLE, "server title name or client service name").defaultValue(title));
+        cliOptions.add(new CliOption(CONFIG_PACKAGE, "configuration package for generated code").defaultValue(getConfigPackage()));
+        cliOptions.add(new CliOption(BASE_PACKAGE, "base package for generated code").defaultValue(getBasePackage()));
 
         //Custom options for this generator
         cliOptions.add(createBooleanCliWithDefault(CONTROLLER_ONLY, "Whether to generate only API interface stubs without the server files.", controllerOnly));
@@ -276,6 +290,10 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
     @Override
     public Map<String, Object> postProcessOperationsWithModels(Map<String, Object> objs, List<Object> allModels) {
         Map<String, Object> operations = (Map<String, Object>) objs.get("operations");
+
+        // TODO: 5.0: Remove the camelCased vendorExtension below and ensure templates use the newer property naming.
+        once(LOGGER).warn("4.3.0 has deprecated the use of vendor extensions which don't follow lower-kebab casing standards with x- prefix.");
+
         if (operations != null) {
             List<CodegenOperation> ops = (List<CodegenOperation>) operations.get("operation");
             for (CodegenOperation operation : ops) {
@@ -302,10 +320,12 @@ public class JavaPlayFrameworkCodegen extends AbstractJavaCodegen implements Bea
 
                 if (operation.returnType != null) {
                     if (operation.returnType.equals("Boolean")) {
-                        operation.vendorExtensions.put("missingReturnInfoIfNeeded", "true");
+                        operation.vendorExtensions.put("missingReturnInfoIfNeeded", "true"); // TODO: 5.0 Remove
+                        operation.vendorExtensions.put("x-missing-return-info-if-needed", "true");
                     }
                     if (operation.returnType.equals("BigDecimal")) {
-                        operation.vendorExtensions.put("missingReturnInfoIfNeeded", "1.0");
+                        operation.vendorExtensions.put("missingReturnInfoIfNeeded", "1.0"); // TODO: 5.0 Remove
+                        operation.vendorExtensions.put("x-missing-return-info-if-needed", "1.0");
                     }
                     if (operation.returnType.startsWith("List")) {
                         String rt = operation.returnType;

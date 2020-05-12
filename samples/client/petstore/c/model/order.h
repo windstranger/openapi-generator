@@ -8,34 +8,48 @@
 #define _order_H_
 
 #include <string.h>
-#include "cJSON.h"
+#include "../external/cJSON.h"
+#include "../include/list.h"
+#include "../include/keyValuePair.h"
+#include "../include/binary.h"
 
-typedef int bool;
-#define true 1
-#define false 0
+typedef struct order_t order_t;
 
-typedef enum  {  placed, approved, delivered } status_e;
 
-char *statusorder_ToString(status_e status);
+// Enum STATUS for order
 
-status_e statusorder_FromString(char *status);
+typedef enum  { openapi_petstore_order_STATUS_NULL = 0, openapi_petstore_order_STATUS_placed, openapi_petstore_order_STATUS_approved, openapi_petstore_order_STATUS_delivered } openapi_petstore_order_STATUS_e;
+
+char* order_status_ToString(openapi_petstore_order_STATUS_e status);
+
+openapi_petstore_order_STATUS_e order_status_FromString(char* status);
+
+
 
 typedef struct order_t {
-	long id; // numeric
-	long petId; // numeric
-	int quantity; // numeric
-	char *shipDate; // date time string
-	status_e status; // enum string
-	bool complete; // boolean
+    long id; //numeric
+    long pet_id; //numeric
+    int quantity; //numeric
+    char *ship_date; //date time
+    openapi_petstore_order_STATUS_e status; //enum
+    int complete; //boolean
+
 } order_t;
 
-order_t *order_create(long id, long petId, int quantity, char *shipDate,
-                      status_e status, bool complete);
+order_t *order_create(
+    long id,
+    long pet_id,
+    int quantity,
+    char *ship_date,
+    openapi_petstore_order_STATUS_e status,
+    int complete
+);
 
 void order_free(order_t *order);
 
-order_t *order_parseFromJSON(char *jsonString);
+order_t *order_parseFromJSON(cJSON *orderJSON);
 
 cJSON *order_convertToJSON(order_t *order);
 
 #endif /* _order_H_ */
+

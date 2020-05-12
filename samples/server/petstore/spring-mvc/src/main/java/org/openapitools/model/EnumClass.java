@@ -25,20 +25,24 @@ public enum EnumClass {
     this.value = value;
   }
 
-  @Override
   @JsonValue
+  public String getValue() {
+    return value;
+  }
+
+  @Override
   public String toString() {
     return String.valueOf(value);
   }
 
   @JsonCreator
-  public static EnumClass fromValue(String text) {
+  public static EnumClass fromValue(String value) {
     for (EnumClass b : EnumClass.values()) {
-      if (String.valueOf(b.value).equals(text)) {
+      if (b.value.equals(value)) {
         return b;
       }
     }
-    throw new IllegalArgumentException("Unexpected value '" + text + "'");
+    throw new IllegalArgumentException("Unexpected value '" + value + "'");
   }
 }
 

@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ServiceLoader;
 
-import static java.util.ServiceLoader.load;
-
 public class CodegenConfigLoader {
     /**
      * Tries to load config class with SPI first, then with class name directly from classpath
@@ -31,7 +29,7 @@ public class CodegenConfigLoader {
      * @return config class
      */
     public static CodegenConfig forName(String name) {
-        ServiceLoader<CodegenConfig> loader = load(CodegenConfig.class);
+        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
 
         StringBuilder availableConfigs = new StringBuilder();
 
@@ -52,7 +50,7 @@ public class CodegenConfigLoader {
     }
 
     public static List<CodegenConfig> getAll() {
-        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class);
+        ServiceLoader<CodegenConfig> loader = ServiceLoader.load(CodegenConfig.class, CodegenConfig.class.getClassLoader());
         List<CodegenConfig> output = new ArrayList<CodegenConfig>();
         for (CodegenConfig aLoader : loader) {
             output.add(aLoader);

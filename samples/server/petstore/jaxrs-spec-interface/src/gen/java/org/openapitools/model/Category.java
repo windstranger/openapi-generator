@@ -27,21 +27,24 @@ public class Category  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
-  }
-
-  /**
+  }/**
    **/
   public Category name(String name) {
     this.name = name;
     return this;
   }
+
+  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -50,10 +53,10 @@ public class Category  implements Serializable {
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -64,8 +67,8 @@ public class Category  implements Serializable {
       return false;
     }
     Category category = (Category) o;
-    return Objects.equals(id, category.id) &&
-        Objects.equals(name, category.name);
+    return Objects.equals(this.id, category.id) &&
+        Objects.equals(this.name, category.name);
   }
 
   @Override
@@ -94,5 +97,7 @@ public class Category  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

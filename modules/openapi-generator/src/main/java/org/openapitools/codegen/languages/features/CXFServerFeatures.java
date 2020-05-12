@@ -6,7 +6,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,6 +33,8 @@ public interface CXFServerFeatures
 
     public static final String GENERATE_NON_SPRING_APPLICATION = "generateNonSpringApplication";
 
+    public static final String LOAD_TEST_DATA_FROM_FILE = "loadTestDataFromFile";
+
     public void setUseWadlFeature(boolean useWadlFeature);
 
     public void setUseMultipartFeature(boolean useMultipartFeature);
@@ -42,5 +44,4 @@ public interface CXFServerFeatures
     public void setUseAnnotatedBasePath(boolean useAnnotatedBasePath);
 
     public void setGenerateNonSpringApplication(boolean generateNonSpringApplication);
-
 }

@@ -51,7 +51,9 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -60,7 +62,7 @@ null (empty response body)
 
 <a name="deletePet"></a>
 # **deletePet**
-> deletePet(petId, apiKey)
+> deletePet(apiKey, petId)
 
 Deletes a pet
 
@@ -71,10 +73,10 @@ Deletes a pet
 //import org.openapitools.client.models.*
 
 val apiInstance = PetApi()
-val petId : kotlin.Long = 789 // kotlin.Long | Pet id to delete
 val apiKey : kotlin.String = apiKey_example // kotlin.String | 
+val petId : kotlin.Long = 789 // kotlin.Long | Pet id to delete
 try {
-    apiInstance.deletePet(petId, apiKey)
+    apiInstance.deletePet(apiKey, petId)
 } catch (e: ClientException) {
     println("4xx response calling PetApi#deletePet")
     e.printStackTrace()
@@ -88,8 +90,8 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| Pet id to delete | [default to null]
- **apiKey** | **kotlin.String**|  | [optional] [default to null]
+ **apiKey** | **kotlin.String**|  | [optional]
+ **petId** | **kotlin.Long**| Pet id to delete |
 
 ### Return type
 
@@ -97,7 +99,9 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -136,7 +140,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **status** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [default to null] [enum: available, pending, sold]
+ **status** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Status values that need to be considered for filter | [enum: available, pending, sold]
 
 ### Return type
 
@@ -144,7 +148,9 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -183,7 +189,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **tags** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by | [default to null]
+ **tags** | [**kotlin.Array&lt;kotlin.String&gt;**](kotlin.String.md)| Tags to filter by |
 
 ### Return type
 
@@ -191,7 +197,9 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -230,7 +238,7 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| ID of pet to return | [default to null]
+ **petId** | **kotlin.Long**| ID of pet to return |
 
 ### Return type
 
@@ -238,7 +246,10 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+
+Configure api_key:
+    ApiClient.apiKey["api_key"] = ""
+    ApiClient.apiKeyPrefix["api_key"] = ""
 
 ### HTTP request headers
 
@@ -282,7 +293,9 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -320,9 +333,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| ID of pet that needs to be updated | [default to null]
- **name** | **kotlin.String**| Updated name of the pet | [optional] [default to null]
- **status** | **kotlin.String**| Updated status of the pet | [optional] [default to null]
+ **petId** | **kotlin.Long**| ID of pet that needs to be updated |
+ **name** | **kotlin.String**| Updated name of the pet | [optional]
+ **status** | **kotlin.String**| Updated status of the pet | [optional]
 
 ### Return type
 
@@ -330,7 +343,9 @@ null (empty response body)
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 
@@ -369,9 +384,9 @@ try {
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **petId** | **kotlin.Long**| ID of pet to update | [default to null]
- **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional] [default to null]
- **file** | **java.io.File**| file to upload | [optional] [default to null]
+ **petId** | **kotlin.Long**| ID of pet to update |
+ **additionalMetadata** | **kotlin.String**| Additional data to pass to server | [optional]
+ **file** | **java.io.File**| file to upload | [optional]
 
 ### Return type
 
@@ -379,7 +394,9 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[petstore_auth](../README.md#petstore_auth)
+
+Configure petstore_auth:
+    ApiClient.accessToken = ""
 
 ### HTTP request headers
 

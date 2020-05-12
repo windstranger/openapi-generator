@@ -28,15 +28,17 @@ public class ClassModel  implements Serializable {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("_class")
   public String getPropertyClass() {
     return propertyClass;
   }
+
   public void setPropertyClass(String propertyClass) {
     this.propertyClass = propertyClass;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -47,7 +49,7 @@ public class ClassModel  implements Serializable {
       return false;
     }
     ClassModel classModel = (ClassModel) o;
-    return Objects.equals(propertyClass, classModel.propertyClass);
+    return Objects.equals(this.propertyClass, classModel.propertyClass);
   }
 
   @Override
@@ -75,5 +77,7 @@ public class ClassModel  implements Serializable {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

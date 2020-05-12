@@ -2,6 +2,7 @@ call .\bin\windows\java-petstore-jersey1.bat
 call .\bin\windows\java-petstore-jersey2.bat
 call .\bin\windows\java-petstore-feign.bat
 call .\bin\windows\java-petstore-feign-10x.bat
+call .\bin\windows\java-petstore-native.bat
 call .\bin\windows\java-petstore-okhttp-gson.bat
 call .\bin\windows\java-petstore-okhttp-gson-parcelable.bat
 call .\bin\windows\java-petstore-retrofit.bat
@@ -19,4 +20,5 @@ call .\bin\windows\java-petstore-webclient.bat
 call .\bin\windows\java-petstore-resteasy.bat
 call .\bin\windows\java-petstore-google-api-client.bat
 call .\bin\windows\java-petstore-rest-assured.bat
+call .\bin\windows\java-petstore-rest-assured-jackson.bat
 call .\bin\windows\java-petstore-vertx.bat

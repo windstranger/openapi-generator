@@ -21,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 public class Pet  implements Serializable {
   
   private @Valid Long id;
-  private @Valid Category category = null;
+  private @Valid Category category;
   private @Valid String name;
   private @Valid List<String> photoUrls = new ArrayList<String>();
   private @Valid List<Tag> tags = new ArrayList<Tag>();
@@ -48,13 +48,13 @@ public enum StatusEnum {
     }
 
     @JsonCreator
-    public static StatusEnum fromValue(String v) {
+    public static StatusEnum fromValue(String value) {
         for (StatusEnum b : StatusEnum.values()) {
-            if (String.valueOf(b.value).equals(v)) {
+            if (b.value.equals(value)) {
                 return b;
             }
         }
-        throw new IllegalArgumentException("Unexpected value '" + v + "'");
+        throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
 }
 
@@ -68,16 +68,17 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("id")
   public Long getId() {
     return id;
   }
+
   public void setId(Long id) {
     this.id = id;
-  }
-
-  /**
+  }/**
    **/
   public Pet category(Category category) {
     this.category = category;
@@ -85,21 +86,24 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("category")
   public Category getCategory() {
     return category;
   }
+
   public void setCategory(Category category) {
     this.category = category;
-  }
-
-  /**
+  }/**
    **/
   public Pet name(String name) {
     this.name = name;
     return this;
   }
+
+  
 
   
   @ApiModelProperty(example = "doggie", required = true, value = "")
@@ -108,16 +112,17 @@ public enum StatusEnum {
   public String getName() {
     return name;
   }
+
   public void setName(String name) {
     this.name = name;
-  }
-
-  /**
+  }/**
    **/
   public Pet photoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
     return this;
   }
+
+  
 
   
   @ApiModelProperty(required = true, value = "")
@@ -126,11 +131,10 @@ public enum StatusEnum {
   public List<String> getPhotoUrls() {
     return photoUrls;
   }
+
   public void setPhotoUrls(List<String> photoUrls) {
     this.photoUrls = photoUrls;
-  }
-
-  /**
+  }/**
    **/
   public Pet tags(List<Tag> tags) {
     this.tags = tags;
@@ -138,16 +142,17 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "")
   @JsonProperty("tags")
   public List<Tag> getTags() {
     return tags;
   }
+
   public void setTags(List<Tag> tags) {
     this.tags = tags;
-  }
-
-  /**
+  }/**
    * pet status in the store
    **/
   public Pet status(StatusEnum status) {
@@ -156,15 +161,17 @@ public enum StatusEnum {
   }
 
   
+
+  
   @ApiModelProperty(value = "pet status in the store")
   @JsonProperty("status")
   public StatusEnum getStatus() {
     return status;
   }
+
   public void setStatus(StatusEnum status) {
     this.status = status;
   }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -175,12 +182,12 @@ public enum StatusEnum {
       return false;
     }
     Pet pet = (Pet) o;
-    return Objects.equals(id, pet.id) &&
-        Objects.equals(category, pet.category) &&
-        Objects.equals(name, pet.name) &&
-        Objects.equals(photoUrls, pet.photoUrls) &&
-        Objects.equals(tags, pet.tags) &&
-        Objects.equals(status, pet.status);
+    return Objects.equals(this.id, pet.id) &&
+        Objects.equals(this.category, pet.category) &&
+        Objects.equals(this.name, pet.name) &&
+        Objects.equals(this.photoUrls, pet.photoUrls) &&
+        Objects.equals(this.tags, pet.tags) &&
+        Objects.equals(this.status, pet.status);
   }
 
   @Override
@@ -213,5 +220,7 @@ public enum StatusEnum {
     }
     return o.toString().replace("\n", "\n    ");
   }
+
+
 }
 

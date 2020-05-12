@@ -8,34 +8,50 @@
 #define _pet_H_
 
 #include <string.h>
-#include "cJSON.h"
+#include "../external/cJSON.h"
+#include "../include/list.h"
+#include "../include/keyValuePair.h"
+#include "../include/binary.h"
+
+typedef struct pet_t pet_t;
+
 #include "category.h"
-#include "list.h"
 #include "tag.h"
 
+// Enum STATUS for pet
 
-typedef enum  {  available, pending, sold } status_e;
+typedef enum  { openapi_petstore_pet_STATUS_NULL = 0, openapi_petstore_pet_STATUS_available, openapi_petstore_pet_STATUS_pending, openapi_petstore_pet_STATUS_sold } openapi_petstore_pet_STATUS_e;
 
-char *statuspet_ToString(status_e status);
+char* pet_status_ToString(openapi_petstore_pet_STATUS_e status);
 
-status_e statuspet_FromString(char *status);
+openapi_petstore_pet_STATUS_e pet_status_FromString(char* status);
+
+
 
 typedef struct pet_t {
-	long id; // numeric
-	category_t *category; // nonprimitive
-	char *name; // no enum string
-	list_t *photoUrls; // primitive container
-	list_t *tags; // nonprimitive container
-	status_e status; // enum string
+    long id; //numeric
+    struct category_t *category; //model
+    char *name; // string
+    list_t *photo_urls; //primitive container
+    list_t *tags; //nonprimitive container
+    openapi_petstore_pet_STATUS_e status; //enum
+
 } pet_t;
 
-pet_t *pet_create(long id, category_t *category, char *name, list_t *photoUrls,
-                  list_t *tags, status_e status);
+pet_t *pet_create(
+    long id,
+    category_t *category,
+    char *name,
+    list_t *photo_urls,
+    list_t *tags,
+    openapi_petstore_pet_STATUS_e status
+);
 
 void pet_free(pet_t *pet);
 
-pet_t *pet_parseFromJSON(char *jsonString);
+pet_t *pet_parseFromJSON(cJSON *petJSON);
 
 cJSON *pet_convertToJSON(pet_t *pet);
 
 #endif /* _pet_H_ */
+

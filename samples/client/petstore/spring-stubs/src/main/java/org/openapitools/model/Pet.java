@@ -24,7 +24,7 @@ public class Pet   {
   private Long id;
 
   @JsonProperty("category")
-  private Category category = null;
+  private Category category;
 
   @JsonProperty("name")
   private String name;
@@ -53,20 +53,24 @@ public class Pet   {
       this.value = value;
     }
 
-    @Override
     @JsonValue
+    public String getValue() {
+      return value;
+    }
+
+    @Override
     public String toString() {
       return String.valueOf(value);
     }
 
     @JsonCreator
-    public static StatusEnum fromValue(String text) {
+    public static StatusEnum fromValue(String value) {
       for (StatusEnum b : StatusEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
+        if (b.value.equals(value)) {
           return b;
         }
       }
-      throw new IllegalArgumentException("Unexpected value '" + text + "'");
+      throw new IllegalArgumentException("Unexpected value '" + value + "'");
     }
   }
 

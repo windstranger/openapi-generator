@@ -3,6 +3,7 @@ package org.openapitools.client;
 import org.threeten.bp.*;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
+import org.openapitools.jackson.nullable.JsonNullableModule;
 import com.fasterxml.jackson.datatype.threetenbp.ThreeTenModule;
 
 import java.text.DateFormat;
@@ -16,8 +17,8 @@ public class JSON implements ContextResolver<ObjectMapper> {
   public JSON() {
     mapper = new ObjectMapper();
     mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, false);
+    mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+    mapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE, true);
     mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     mapper.enable(SerializationFeature.WRITE_ENUMS_USING_TO_STRING);
     mapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
@@ -27,6 +28,8 @@ public class JSON implements ContextResolver<ObjectMapper> {
     module.addDeserializer(OffsetDateTime.class, CustomInstantDeserializer.OFFSET_DATE_TIME);
     module.addDeserializer(ZonedDateTime.class, CustomInstantDeserializer.ZONED_DATE_TIME);
     mapper.registerModule(module);
+    JsonNullableModule jnm = new JsonNullableModule();
+    mapper.registerModule(jnm);
   }
 
   /**
@@ -41,4 +44,11 @@ public class JSON implements ContextResolver<ObjectMapper> {
   public ObjectMapper getContext(Class<?> type) {
     return mapper;
   }
+
+  /**
+   * Get the object mapper
+   *
+   * @return object mapper
+   */
+  public ObjectMapper getMapper() { return mapper; }
 }
